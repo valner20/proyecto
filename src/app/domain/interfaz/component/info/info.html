@@ -1,0 +1,52 @@
+<div class="calendar-nav">
+  <button (click)="previousMonth()" class ="btn">Anterior</button>
+  <span class="calendar-month">{{ currentMonth | titlecase }}</span>
+  <button (click)="nextMonth()" class ="btn">Siguiente</button>
+</div>
+
+<div class="position-wrapper">
+  <div class="overlay-bar"></div>
+
+  <div class="custom-day-headers">
+    <div *ngFor="let dia of diasSemana" class="custom-header">
+      {{ dia }}
+    </div>
+  </div>
+
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    (dayClicked)="handleDayClick($event.day)"
+    >
+
+  </mwl-calendar-month-view>
+</div>
+<div class="modal-overlay" *ngIf="modalVisible" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>Turnos del {{ selectedDate | date: 'fullDate' : undefined : 'es' }}</h2>
+
+    <div *ngIf="selectedDayEvents?.length === 0">
+      <p>No hay eventos para este día.</p>
+    </div>
+
+      <div *ngFor="let event of selectedDayEvents" class="event-card">
+        <h3>{{ event.title }}</h3>
+      <p><strong>Fecha:</strong> {{ event.start | date: 'fullDate' : undefined : 'es' }}</p>
+      <p><strong>Hora:</strong> {{ event.meta?.Hora }}</p>
+      <p><strong>Dirección:</strong> {{ event.meta?.direccion }}</p>
+
+      <div *ngIf="event.meta?.videoUrl" class="video-wrapper">
+        <iframe
+          [src]="sanitizeUrl(event.meta.videoUrl)"
+          width="100%"
+          height="200"
+          frameborder="0"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <button (click)="closeModal()">Cerrar</button>
+  </div>
+</div>
+
