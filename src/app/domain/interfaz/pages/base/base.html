@@ -6,10 +6,11 @@
     <h1 class="login-title">Luna Limpia</h1>
     <p class="login-subtitle">Bienvenido de nuevo</p>
 
-    <form>
-      <input type="email" placeholder="CC" required />
-      <input type="password" placeholder="CC" required />
-      <button type="submit">Ingresar</button>
+    <form (ngSubmit)="login()">
+      <input type="text" [(ngModel)]="cedula" name="cedula" placeholder="Nombre" required>
+      <input type="password" [(ngModel)]="pass" name="pass" placeholder="cc" required>
+      <button type="submit">Iniciar sesión</button>
+      <p *ngIf="error" style="color:red">{{ error }}</p>
     </form>
   </div>
 </div>

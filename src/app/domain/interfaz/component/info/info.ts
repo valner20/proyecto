@@ -1,69 +1,58 @@
 import { Component,ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule, CalendarEvent, CalendarView,CalendarMonthViewDay } from 'angular-calendar';
 import { format, addMonths, subMonths,startOfDay } from 'date-fns';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { es } from 'date-fns/locale';
+import { Turnos } from '../../../../servicios/turnos/turnos';
+import { turno } from '../../../../servicios/admin/turnos/turnos';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-info',
   standalone:true,
-  imports: [CommonModule, CalendarModule],
+  imports: [CommonModule, CalendarModule,HttpClientModule],
   templateUrl: './info.html',
   styleUrl: './info.css',
   encapsulation: ViewEncapsulation.None
 
 })
 export class Info {
-  constructor(private sanitizer: DomSanitizer) {}
 
+  constructor(private sanitizer: DomSanitizer, private eventoService: Turnos, private cdr: ChangeDetectorRef) {
+    this.cargarTurnos();
+  }
   sanitizeUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
+  diasSemana = ["D","L","M","M","J","V","S"]
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   modalVisible: boolean = false;
   selectedDayEvents: CalendarEvent[] = [];
   selectedDate: Date | null = null;
 
-  events: CalendarEvent[] = [
-  {
-    start: startOfDay(new Date(2025, 6, 9)),
-    title: 'Turno',
-    color: { primary: '#ad2121', secondary: '#FAE3E3' },
-    meta: {
-      direccion: 'Calle 123, medellin',
-      Hora: "9 am-1 pm",
-      videoUrl: 'https://drive.google.com/file/d/1NmVdgysijeiC3tEh18yH4tqOR_fKO72B/view?usp=sharing'
-    }
-  },
-  {
-    start: startOfDay(new Date(2025, 6, 11)),
-    title: 'Reunión importante',
-    color: { primary: '#ad2121', secondary: '#FAE3E3' },
-    meta: {
-      direccion: 'Calle 123, medellin',
-      Hora: "9 am-1 pm",
-      videoUrl: 'https://drive.google.com/file/d/1NmVdgysijeiC3tEh18yH4tqOR_fKO72B/view?usp=sharing'
-    }
-  },
-  {
-    start: startOfDay(new Date(2025, 6, 9)),
-    title: 'Turno',
-    color: { primary: '#ad2121', secondary: '#FAE3E3' },
-    meta: {
-      direccion: 'Calle 123, medellin',
-      Hora: "1 pm - 5 pm",
-      videoUrl: 'https://drive.google.com/file/d/1NmVdgysijeiC3tEh18yH4tqOR_fKO72B/view?usp=sharing'
-    }
-  },
+  events: CalendarEvent[] = [];
 
-];
-
-  handleDayClick(day: CalendarMonthViewDay): void {
-    console.log('Eventos del día:', day.events);
-    if(day.date > new Date() ){
+  cargarTurnos() {
+    this.eventoService.getEventos().subscribe((datos: turno[]) => {
+      this.events = datos.map((e: turno) => ({
+          start: startOfDay(this.convertirFechaLocal(e.fecha)),
+        title: e.cliente.nombre,
+        color: { primary: '#ad2121', secondary: '#FAE3E3' },
+        meta: {
+          direccion: e.cliente.direccion,
+          Hora: e.hora,
+          videoUrl: e.cliente.video
+        }
+      }));
+          this.cdr.detectChanges();
+  } 
+);
+}
+handleDayClick(day: CalendarMonthViewDay): void {
     this.selectedDate = day.date;
-    this.selectedDayEvents = day.events;}
+    this.selectedDayEvents = day.events;
     this.modalVisible = true;
   }
 
@@ -82,9 +71,13 @@ export class Info {
 
 
   get currentMonth(): string {
-  return format(this.viewDate, 'MMMM yyyy', { locale: es });
-}
+    return format(this.viewDate, 'MMMM yyyy', { locale: es });
+  }
 
-diasSemana = ["D","L","M","M","J","V","S"]
+
+convertirFechaLocal(fecha: string): Date {
+  const [year, month, day] = fecha.split('-').map(Number);
+  return new Date(year, month - 1, day); // mes -1 porque en JS enero = 0
+}
 
 }

@@ -1,0 +1,31 @@
+<div class="main">
+    <div class="card card-relative">
+  <h2>Total Profesionales: {{total}}</h2>
+  <button class="btn-refresh" (click)="obtenerProfesionales(true)">Refrescar</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let profesional of profesionales">
+          <td>{{ profesional.username }}</td>
+
+          <td class="actions">
+            <button class="btn btn-delete" (click)="eliminarProfesional(profesional.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <form class="form" (ngSubmit)="guardarProfesional()">
+      <input type="text" [(ngModel)]="nuevoProfesional.username" name="nombre" placeholder="Nombre" required />
+      <input type="text" [(ngModel)]="nuevoProfesional.password" name="cedula" placeholder="Cedula" required />
+
+      <button class="btn btn-edit" type="submit">Guardar</button>
+    </form>
+  </div>
+</div>

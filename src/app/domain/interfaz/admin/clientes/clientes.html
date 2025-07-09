@@ -1,0 +1,88 @@
+<div class="main">
+  <div class="card card-relative">
+    <h2>Total Clientes: {{ totals }} </h2>
+    <button class="btn-refresh" (click)="obtenerClientes(true)">Refrescar</button>
+
+    <!-- Envoltura para permitir scroll horizontal en pantallas pequeñas -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Video</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <ng-container *ngIf="editandoId !== cliente.id; else modoEdicion">
+              <td data-label="Nombre">{{ cliente.nombre }}</td>
+              <td data-label="Dirección">{{ cliente.direccion }}</td>
+              <td data-label="Video">
+                <a *ngIf="cliente.video" [href]="cliente.video" target="_blank">Ver Video</a>
+              </td>
+              <td class="actions" data-label="Acciones">
+                <button class="btn btn-edit" (click)="iniciarEdicion(cliente)">Editar</button>
+                <button class="btn btn-delete" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+              </td>
+            </ng-container>
+
+            <ng-template #modoEdicion>
+              <td data-label="Nombre">
+                <input
+                  type="text"
+                  [(ngModel)]="cliente.nombre"
+                  name="nombre{{cliente.id}}"
+                  autofocus
+                />
+              </td>
+              <td data-label="Dirección">
+                <input
+                  type="text"
+                  [(ngModel)]="cliente.direccion"
+                  name="direccion{{cliente.id}}"
+                />
+              </td>
+              <td data-label="Video">
+                <input
+                  type="text"
+                  [(ngModel)]="cliente.video"
+                  name="video{{cliente.id}}"
+                />
+              </td>
+              <td class="actions" data-label="Acciones">
+                <button class="btn btn-edit" (click)="guardarEdicion(cliente)">Guardar</button>
+                <button class="btn btn-delete" (click)="cancelarEdicion()">Cancelar</button>
+              </td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Formulario nuevo cliente -->
+    <form class="form" (ngSubmit)="guardarCliente()">
+      <input
+        type="text"
+        [(ngModel)]="nuevoCliente.nombre"
+        name="nombre"
+        placeholder="Nombre"
+        required
+      />
+      <input
+        type="text"
+        [(ngModel)]="nuevoCliente.direccion"
+        name="direccion"
+        placeholder="Dirección"
+      />
+      <input
+        type="text"
+        [(ngModel)]="nuevoCliente.video"
+        name="video"
+        placeholder="URL del video"
+      />
+      <button class="btn btn-edit" type="submit">Guardar</button>
+    </form>
+  </div>
+</div>

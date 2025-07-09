@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+      --primary-color: #5c89d6;
+      --secondary-color: #a4c2f4;
+      --accent-color: #f7c59f;
+      --background-color: #f0f4ff;
+      --text-color: #2c3e50
+    }
 body {
   background: linear-gradient(180deg, #ffffff 60%, #eaf6ff 100%);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  color: var(--text-color);
 }

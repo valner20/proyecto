@@ -1,0 +1,152 @@
+<div class="card card-relative">
+  <h2>Total de Turnos : {{ total() }}</h2>
+  <h3>Ventas Totales: {{ totalVentas() | currency:'':'symbol':'1.0-0' }}</h3>
+
+  <button class="btn-refresh" (click)="cargar()">Refrescar</button>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <div class="filtro-group">
+      <label>Fecha</label>
+      <input type="date" [ngModel]="filtros().fecha" (ngModelChange)="actualizarFiltroFecha($event)" />
+    </div>
+
+    <div class="filtro-group">
+      <label>Cliente</label>
+      <select [ngModel]="filtros().cliente" (ngModelChange)="actualizarFiltroCliente($event)">
+        <option [ngValue]="0">Todos</option>
+        <option *ngFor="let c of clientes" [ngValue]="c.id">{{ c.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="filtro-group">
+      <label>Profesional</label>
+      <select [ngModel]="filtros().profesional" (ngModelChange)="actualizarFiltroProfesional($event)">
+        <option [ngValue]="0">Todos</option>
+        <option *ngFor="let p of profesionales" [ngValue]="p.id">{{ p.username }}</option>
+      </select>
+    </div>
+
+    <div class="filtro-group">
+      <label>Mes</label>
+      <select [ngModel]="filtros().mes" (ngModelChange)="actualizarFiltroMes($event)">
+        <option value="">Todos</option>
+        <option value="01">Enero</option>
+        <option value="02">Febrero</option>
+        <option value="03">Marzo</option>
+        <option value="04">Abril</option>
+        <option value="05">Mayo</option>
+        <option value="06">Junio</option>
+        <option value="07">Julio</option>
+        <option value="08">Agosto</option>
+        <option value="09">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+      </select>
+    </div>
+
+    <button class="btn" (click)="resetFiltros()">Limpiar</button>
+  </div>
+
+  <!-- Tabla -->
+  <div class="table-wrapper">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Cliente</th>
+          <th>Dirección</th>
+          <th>Video</th>
+          <th>Profesional</th>
+          <th>Valor</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cita of citasFiltradas()">
+          <td *ngIf="editandoId !== cita.id" data-label="Fecha">{{ cita.fecha }}</td>
+          <td *ngIf="editandoId === cita.id" data-label="Fecha">
+            <input type="date" [(ngModel)]="cita.fecha" name="fecha{{cita.id}}" />
+          </td>
+
+          <td *ngIf="editandoId !== cita.id" data-label="Hora">{{ cita.hora }}</td>
+          <td *ngIf="editandoId === cita.id" data-label="Hora">
+            <input type="text" [(ngModel)]="cita.hora" name="hora{{cita.id}}" />
+          </td>
+
+          <td *ngIf="editandoId !== cita.id" data-label="Cliente">{{ cita.cliente.nombre }}</td>
+          <td *ngIf="editandoId === cita.id" data-label="Cliente">
+            <select [(ngModel)]="cita.cliente.id" name="cliente{{cita.id}}">
+              <option *ngFor="let c of clientes" [value]="c.id">{{ c.nombre }}</option>
+            </select>
+          </td>
+
+          <td data-label="Dirección">{{ cita.cliente.direccion }}</td>
+
+          <td data-label="Video">
+            <a *ngIf="cita.cliente.video" [href]="cita.cliente.video" target="_blank">Ver video</a>
+          </td>
+
+          <td *ngIf="editandoId !== cita.id" data-label="Profesional">{{ cita.profesional.username }}</td>
+          <td *ngIf="editandoId === cita.id" data-label="Profesional">
+            <select [(ngModel)]="cita.profesional.id" name="profesional{{cita.id}}">
+              <option *ngFor="let p of profesionales" [value]="p.id">{{ p.username }}</option>
+            </select>
+          </td>
+
+         <td *ngIf="editandoId !== cita.id" data-label="Valor">{{ cita.valor| currency:'':'symbol':'1.0-0' }}</td>
+          <td *ngIf="editandoId === cita.id" data-label="Valor">
+            <input
+              type="text"
+              [ngModel]="valorFormateadoEdicion[cita.id]"
+              (ngModelChange)="actualizarValorEdicion(cita.id, $event)"
+              name="valor"
+              autocomplete="off"
+            />
+          </td>
+
+          <td class="actions" data-label="Acciones">
+            <ng-container *ngIf="editandoId !== cita.id">
+              <button class="btn btn-edit" (click)="iniciarEdicion(cita)">Editar</button>
+              <button class="btn btn-delete" (click)="eliminarCita(cita.id)">Eliminar</button>
+            </ng-container>
+
+            <ng-container *ngIf="editandoId === cita.id">
+              <button class="btn btn-edit" (click)="guardarEdicion(cita)">Guardar</button>
+              <button class="btn btn-delete" (click)="cancelarEdicion()">Cancelar</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--cita-->
+  <form class="form" (ngSubmit)="guardarCita()">
+    <input type="date" [(ngModel)]="nuevaCita.fecha" name="fecha" required />
+    <input type="text" [(ngModel)]="nuevaCita.hora" name="hora" placeholder="Hora" required />
+
+    <select [(ngModel)]="nuevaCita.cliente" name="cliente" required>
+      <option [ngValue]="0" disabled selected>Seleccione un cliente</option>
+      <option *ngFor="let c of clientes" [value]="c.id">{{ c.nombre }}</option>
+    </select>
+
+    <select [(ngModel)]="nuevaCita.profesional" name="profesional" required>
+      <option [ngValue]="0" disabled selected>Seleccione un profesional</option>
+      <option *ngFor="let p of profesionales" [value]="p.id">{{ p.username }}</option>
+    </select>
+    <input
+        type="text"
+        [ngModel]="valorFormateado"
+        (ngModelChange)="actualizarValor($event)"
+        name="valor"
+        autocomplete="off"
+        required
+      />
+
+
+    <button class="btn btn-edit" type="submit">Guardar</button>
+  </form>
+</div>
