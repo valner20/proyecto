@@ -13,7 +13,7 @@ export interface Profesional {
   providedIn: 'root'
 })
 export class ProfesionalService {
-  private baseUrl = 'https://lunalimpia.onrender.com/profesional/';
+  private baseUrl = 'http://127.0.0.1:8000/profesional/';
   private cache: Profesional[] | null = null;
 
   constructor(private http: HttpClient) {}
