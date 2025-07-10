@@ -134,8 +134,8 @@
     </select>
 
     <select [(ngModel)]="nuevaCita.profesional" name="profesional" required>
-      <option [ngValue]="0" disabled selected>Seleccione un profesional</option>
-      <option *ngFor="let p of profesionales" [value]="p.id">{{ p.username }}</option>
+      <option [ngValue]="0" disabled>Seleccione un profesional</option>
+      <option *ngFor="let p of profesionales" [ngValue]="p.id">{{ p.username }}</option>
     </select>
     <input
         type="text"
