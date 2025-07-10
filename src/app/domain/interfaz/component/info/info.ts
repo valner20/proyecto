@@ -28,7 +28,7 @@ export class Info {
   diasSemana = ["D","L","M","M","J","V","S"]
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
-  modalVisible: boolean = false;
+  modalVisible = false;
   selectedDayEvents: CalendarEvent[] = [];
   selectedDate: Date | null = null;
 
@@ -47,7 +47,7 @@ export class Info {
         }
       }));
           this.cdr.detectChanges();
-  } 
+  }
 );
 }
 handleDayClick(day: CalendarMonthViewDay): void {
@@ -77,7 +77,7 @@ handleDayClick(day: CalendarMonthViewDay): void {
 
 convertirFechaLocal(fecha: string): Date {
   const [year, month, day] = fecha.split('-').map(Number);
-  return new Date(year, month - 1, day); // mes -1 porque en JS enero = 0
+  return new Date(year, month - 1, day); 
 }
 
 }

@@ -58,7 +58,6 @@ export class TurnosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Turnos cargado');
     this.inicializarDatos();
   }
 
@@ -215,13 +214,13 @@ actualizarFiltroMes(valor: string): void {
 totalVentas = computed(() =>
   this.citasFiltradas().reduce((sum, cita) => sum + (cita.valor || 0), 0)
 );
-valor: number = 0;
+valor = 0;
 
 get valorGet(): string {
   return this.valor.toLocaleString('es-CO');
 }
-valorFormateado: string = '';
-valorFormateadoEdicion: { [id: number]: string } = {};
+valorFormateado = '';
+valorFormateadoEdicion: Record<number, string> = {};
 
 
 actualizarValor(valor: string): void {

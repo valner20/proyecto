@@ -24,7 +24,7 @@ export interface CrearCita {
 })
 export class Turnos {
 
-  private baseUrl = 'https://lunalimpia.onrender.com/cita/';
+  private baseUrl = 'http://127.0.0.1:8000/cita/';
   private cache: turno[] | null = null;
 
   constructor(private http: HttpClient) {}

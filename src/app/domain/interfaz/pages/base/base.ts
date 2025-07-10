@@ -12,9 +12,9 @@ import { jwtDecode } from 'jwt-decode';
   styleUrl: './base.css'
 })
 export class Base {
-  cedula:string = "";
-  pass:string ="";
-  error:string="";
+  cedula = "";
+  pass ="";
+  error="";
   constructor(private http: HttpClient, private router:Router ){}
 
   login() {
@@ -23,7 +23,7 @@ export class Base {
     password: this.pass
   };
 
-  this.http.post<any>('https://lunalimpia.onrender.com/api/token/', data).subscribe({
+  this.http.post<any>('http://127.0.0.1:8000/api/token/', data).subscribe({
     next: (res) => {
       localStorage.setItem('access', res.access);
       localStorage.setItem('refresh', res.refresh)

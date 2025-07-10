@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { Cliente,ClienteService } from '../../../../servicios/admin/clientes/clientes';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-clientes',
@@ -12,10 +12,10 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './clientes.css'
 
 })
-export class Clientes {
+export class Clientes implements OnInit {
   editandoId: number | null = null;
   backupCliente: Cliente | null = null;
-  total:number=0
+  total=0
   clientes: Cliente[] = [];
   nuevoCliente: Partial<Cliente> = {};
 
@@ -39,24 +39,29 @@ export class Clientes {
   }
 }
 
-  eliminarCliente(id: number): void {
-    this.clienteService.deleteCliente(id).subscribe(() => {
-    this.obtenerClientes(true);
+ eliminarCliente(id: number): void {
+  this.clienteService.deleteCliente(id).subscribe(() => {
+    this.clientes = this.clientes.filter(cliente => cliente.id !== id);
+    this.cdr.detectChanges();
   });
+
   }
 
   iniciarEdicion(cliente: Cliente): void {
     this.editandoId = cliente.id;
     this.backupCliente = JSON.parse(JSON.stringify(cliente));
   }
-
-  guardarEdicion(cliente: Cliente): void {
-    this.clienteService.updateCliente(cliente.id, cliente).subscribe(() => {
-      this.editandoId = null;
-      this.backupCliente = null;
-      this.obtenerClientes();
-    });
-  }
+guardarEdicion(cliente: Cliente): void {
+  this.clienteService.updateCliente(cliente.id, cliente).subscribe((clienteActualizado) => {
+    const index = this.clientes.findIndex(c => c.id === cliente.id);
+    if (index !== -1) {
+      this.clientes[index] = clienteActualizado;
+    }
+    this.editandoId = null;
+    this.backupCliente = null;
+    this.cdr.detectChanges();
+  });
+}
 
   cancelarEdicion(): void {
     if (this.backupCliente) {

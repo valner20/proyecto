@@ -36,7 +36,7 @@ export class ProfesionalService {
   }
 
   createProfesional(profesional: Profesional): Observable<Profesional> {
-    return this.http.post<Profesional>("https://lunalimpia.onrender.com/registrar/", profesional);
+    return this.http.post<Profesional>("http://127.0.0.1:8000/registrar/", profesional);
   }
 
   updateProfesional(id: number, profesional: Profesional): Observable<Profesional> {

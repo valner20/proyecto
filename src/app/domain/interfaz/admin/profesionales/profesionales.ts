@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Profesional,ProfesionalService } from '../../../../servicios/admin/profesionales/profesionales';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, OnInit } from '@angular/core';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { ChangeDetectorRef } from '@angular/core';
   standalone:true,
   styleUrl: './profesionales.css'
 })
-export class Profesionales {
+export class Profesionales implements OnInit {
   profesionales: Profesional[] = [];
   nuevoProfesional: Partial<Profesional> = {};
   constructor(private profesionalService: ProfesionalService,private cdr: ChangeDetectorRef) {
@@ -42,12 +42,13 @@ export class Profesionales {
   }
 }
 
-  eliminarProfesional(id: number): void {
-    this.profesionalService.deleteProfesional(id).subscribe(() => {
-    this.obtenerProfesionales(true);
+eliminarProfesional(id: number): void {
+  this.profesionalService.deleteProfesional(id).subscribe(() => {
+    this.profesionales = this.profesionales.filter(p => p.id !== id);
+    this.cdr.detectChanges();
   });
   }
-  totals:number=0;
+  totals=0;
   get total(){
     this.totals = this.profesionales.length
     return this.totals;

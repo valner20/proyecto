@@ -25,7 +25,6 @@
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.css"
-
             ]
           },
           "configurations": {
@@ -75,7 +74,6 @@
               {
                 "glob": "**/*",
                 "input": "public"
-
               }
             ],
             "styles": [
@@ -85,11 +83,23 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }
