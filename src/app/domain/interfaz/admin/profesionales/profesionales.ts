@@ -30,12 +30,18 @@ export class Profesionales implements OnInit {
 });
   }
 
-  guardarProfesional(): void {
+guardarProfesional(): void {
   if (this.nuevoProfesional.username) {
     this.profesionalService
       .createProfesional(this.nuevoProfesional as Profesional)
       .subscribe((nuevo) => {
         this.profesionales.push(nuevo);
+
+        const cacheActual = this.profesionalService['cache'];
+        if (cacheActual) {
+          this.profesionalService['cache'] = [...cacheActual, nuevo];
+        }
+
         this.nuevoProfesional = {};
         this.cdr.detectChanges();
       });
@@ -45,9 +51,15 @@ export class Profesionales implements OnInit {
 eliminarProfesional(id: number): void {
   this.profesionalService.deleteProfesional(id).subscribe(() => {
     this.profesionales = this.profesionales.filter(p => p.id !== id);
+
+    const cacheActual = this.profesionalService['cache'];
+    if (cacheActual) {
+      this.profesionalService['cache'] = cacheActual.filter(p => p.id !== id);
+    }
+
     this.cdr.detectChanges();
   });
-  }
+}
   totals=0;
   get total(){
     this.totals = this.profesionales.length

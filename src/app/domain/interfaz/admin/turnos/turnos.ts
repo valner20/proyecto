@@ -99,6 +99,7 @@ export class TurnosComponent implements OnInit {
     profesional: 0,
     valor:0
   };
+  this.valorFormateado=""
 });
 }
 

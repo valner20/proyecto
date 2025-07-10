@@ -23,7 +23,7 @@ export class Base {
     password: this.pass
   };
 
-  this.http.post<any>('http://127.0.0.1:8000/api/token/', data).subscribe({
+  this.http.post<any>('https://lunalimpia.fly.dev/api/token/', data).subscribe({
     next: (res) => {
       localStorage.setItem('access', res.access);
       localStorage.setItem('refresh', res.refresh)

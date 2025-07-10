@@ -24,7 +24,7 @@ export interface CrearCita {
 })
 export class Turnos {
 
-  private baseUrl = 'http://127.0.0.1:8000/cita/';
+  private baseUrl = 'https://lunalimpia.fly.dev/cita/';
   private cache: turno[] | null = null;
 
   constructor(private http: HttpClient) {}

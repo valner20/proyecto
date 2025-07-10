@@ -14,7 +14,7 @@ export interface Cliente {
   providedIn: 'root'
 })
 export class ClienteService {
-  private baseUrl = 'http://127.0.0.1:8000/cliente/';
+  private baseUrl = 'https://lunalimpia.fly.dev/cliente/';
   private cache: Cliente[] | null = null;
 
   constructor(private http: HttpClient) {}

@@ -33,35 +33,55 @@ export class Clientes implements OnInit {
   if (this.nuevoCliente.nombre) {
     this.clienteService.createCliente(this.nuevoCliente as Cliente).subscribe((nuevoCliente) => {
       this.clientes.push(nuevoCliente);
+
+      const cacheActual = this.clienteService['cache'];
+      if (cacheActual) {
+        this.clienteService['cache'] = [...cacheActual, nuevoCliente];
+      }
+
       this.nuevoCliente = {};
       this.cdr.detectChanges();
     });
   }
 }
 
- eliminarCliente(id: number): void {
+
+eliminarCliente(id: number): void {
   this.clienteService.deleteCliente(id).subscribe(() => {
     this.clientes = this.clientes.filter(cliente => cliente.id !== id);
+
+    const cacheActual = this.clienteService['cache'];
+    if (cacheActual) {
+      this.clienteService['cache'] = cacheActual.filter(cliente => cliente.id !== id);
+    }
+
     this.cdr.detectChanges();
   });
+}
 
-  }
-
-  iniciarEdicion(cliente: Cliente): void {
-    this.editandoId = cliente.id;
-    this.backupCliente = JSON.parse(JSON.stringify(cliente));
-  }
 guardarEdicion(cliente: Cliente): void {
   this.clienteService.updateCliente(cliente.id, cliente).subscribe((clienteActualizado) => {
     const index = this.clientes.findIndex(c => c.id === cliente.id);
     if (index !== -1) {
       this.clientes[index] = clienteActualizado;
     }
+    const cache = this.clienteService['cache'];
+    if (cache !== null) {
+      const cacheIndex = cache.findIndex(c => c.id === cliente.id);
+      if (cacheIndex !== -1) {
+        cache[cacheIndex] = clienteActualizado;
+      }
+    }
+
     this.editandoId = null;
     this.backupCliente = null;
     this.cdr.detectChanges();
   });
 }
+  iniciarEdicion(cliente: Cliente): void {
+    this.editandoId = cliente.id;
+    this.backupCliente = JSON.parse(JSON.stringify(cliente));
+  }
 
   cancelarEdicion(): void {
     if (this.backupCliente) {

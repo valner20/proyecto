@@ -7,7 +7,7 @@ import { turno } from '../admin/turnos/turnos';
   providedIn: 'root'
 })
 export class Turnos {
-private apiUrl = 'https://lunalimpia.onrender.com/cita/';
+private apiUrl = 'https://lunalimpia.fly.dev/cita/';
 
   constructor(private http: HttpClient) {}
 

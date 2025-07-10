@@ -77,7 +77,7 @@ handleDayClick(day: CalendarMonthViewDay): void {
 
 convertirFechaLocal(fecha: string): Date {
   const [year, month, day] = fecha.split('-').map(Number);
-  return new Date(year, month - 1, day); 
+  return new Date(year, month - 1, day);
 }
 
 }

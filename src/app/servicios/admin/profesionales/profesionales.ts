@@ -13,7 +13,7 @@ export interface Profesional {
   providedIn: 'root'
 })
 export class ProfesionalService {
-  private baseUrl = 'http://127.0.0.1:8000/profesional/';
+  private baseUrl = 'https://lunalimpia.fly.dev/profesional/';
   private cache: Profesional[] | null = null;
 
   constructor(private http: HttpClient) {}
@@ -36,7 +36,7 @@ export class ProfesionalService {
   }
 
   createProfesional(profesional: Profesional): Observable<Profesional> {
-    return this.http.post<Profesional>("http://127.0.0.1:8000/registrar/", profesional);
+    return this.http.post<Profesional>("https://lunalimpia.fly.dev/registrar/", profesional);
   }
 
   updateProfesional(id: number, profesional: Profesional): Observable<Profesional> {
