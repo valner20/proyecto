@@ -10,8 +10,8 @@
           <tr>
             <th>Nombre</th>
             <th>Dirección</th>
-            <th>correo</th>
             <th>cedula</th>
+            <th>correo</th>
             <th>Video</th>
             <th>Acciones</th>
           </tr>
@@ -49,19 +49,12 @@
                 />
               </td>
               <td data-label="cedula">
-                <input
-                  type="text"
-                  [(ngModel)]="cliente.cedula"
-                  name="direccion{{cliente.id}}"
-                />
-              </td>
-              <td data-label="correo">
-                <input
-                  type="text"
-                  [(ngModel)]="cliente.correo"
-                  name="direccion{{cliente.id}}"
-                />
-              </td>
+                    <input [(ngModel)]="cliente.cedula" name="cedula{{cliente.id}}" />
+                  </td>
+                <td data-label="correo">
+                    <input [(ngModel)]="cliente.correo" name="correo{{cliente.id}}" />
+                  </td>
+
               <td data-label="Video">
                 <input
                   type="text"
