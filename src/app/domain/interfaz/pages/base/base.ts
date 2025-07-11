@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -12,10 +12,12 @@ import { jwtDecode } from 'jwt-decode';
   styleUrl: './base.css'
 })
 export class Base {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
   cedula = "";
   pass ="";
   error="";
-  constructor(private http: HttpClient, private router:Router ){}
 
   login() {
   const data = {

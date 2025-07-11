@@ -1,5 +1,5 @@
 // profesional.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
 
@@ -13,10 +13,10 @@ export interface Profesional {
   providedIn: 'root'
 })
 export class ProfesionalService {
+  private http = inject(HttpClient);
+
   private baseUrl = 'https://lunalimpia.fly.dev/profesional/';
   private cache: Profesional[] | null = null;
-
-  constructor(private http: HttpClient) {}
 
   getProfesionales(forceRefresh = false): Observable<Profesional[]> {
     if (this.cache && !forceRefresh) {

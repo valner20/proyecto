@@ -10,6 +10,8 @@
           <tr>
             <th>Nombre</th>
             <th>Dirección</th>
+            <th>correo</th>
+            <th>cedula</th>
             <th>Video</th>
             <th>Acciones</th>
           </tr>
@@ -34,13 +36,27 @@
                   type="text"
                   [(ngModel)]="cliente.nombre"
                   name="nombre{{cliente.id}}"
-                 
+
                 />
               </td>
               <td data-label="Dirección">
                 <input
                   type="text"
                   [(ngModel)]="cliente.direccion"
+                  name="direccion{{cliente.id}}"
+                />
+              </td>
+              <td data-label="cedula">
+                <input
+                  type="text"
+                  [(ngModel)]="cliente.cedula"
+                  name="direccion{{cliente.id}}"
+                />
+              </td>
+              <td data-label="correo">
+                <input
+                  type="text"
+                  [(ngModel)]="cliente.correo"
                   name="direccion{{cliente.id}}"
                 />
               </td>
@@ -61,7 +77,7 @@
       </table>
     </div>
 
-    <!-- Formulario nuevo cliente -->
+    <!-- cliente -->
     <form class="form" (ngSubmit)="guardarCliente()">
       <input
         type="text"
@@ -75,6 +91,18 @@
         [(ngModel)]="nuevoCliente.direccion"
         name="direccion"
         placeholder="Dirección"
+      />
+      <input
+        type="text"
+        [(ngModel)]="nuevoCliente.cedula"
+        name="cedula"
+        placeholder="cedula"
+      />
+      <input
+        type="text"
+        [(ngModel)]="nuevoCliente.correo"
+        name="correo"
+        placeholder="correo"
       />
       <input
         type="text"

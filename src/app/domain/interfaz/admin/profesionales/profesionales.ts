@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Profesional,ProfesionalService } from '../../../../servicios/admin/profesionales/profesionales';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,10 +13,11 @@ import { ChangeDetectorRef, OnInit } from '@angular/core';
   styleUrl: './profesionales.css'
 })
 export class Profesionales implements OnInit {
+  private profesionalService = inject(ProfesionalService);
+  private cdr = inject(ChangeDetectorRef);
+
   profesionales: Profesional[] = [];
   nuevoProfesional: Partial<Profesional> = {};
-  constructor(private profesionalService: ProfesionalService,private cdr: ChangeDetectorRef) {
-  }
   ngOnInit(): void {
     this.obtenerProfesionales()
 }

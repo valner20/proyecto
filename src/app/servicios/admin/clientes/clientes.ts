@@ -1,5 +1,5 @@
 // cliente.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
 
@@ -7,17 +7,20 @@ export interface Cliente {
   id: number;
   nombre: string;
   direccion: string;
+  cedula: string;
+  correo: string;
   video: string;
+
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
+  private http = inject(HttpClient);
+
   private baseUrl = 'https://lunalimpia.fly.dev/cliente/';
   private cache: Cliente[] | null = null;
-
-  constructor(private http: HttpClient) {}
 
   getClientes(forceRefresh = false): Observable<Cliente[]> {
     if (this.cache && !forceRefresh) {

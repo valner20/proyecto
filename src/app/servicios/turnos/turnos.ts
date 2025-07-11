@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { turno } from '../admin/turnos/turnos';
@@ -7,9 +7,9 @@ import { turno } from '../admin/turnos/turnos';
   providedIn: 'root'
 })
 export class Turnos {
-private apiUrl = 'https://lunalimpia.fly.dev/cita/';
+private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+private apiUrl = 'https://lunalimpia.fly.dev/cita/';
 
   getEventos(): Observable<turno[]> {
     const token = localStorage.getItem('access');

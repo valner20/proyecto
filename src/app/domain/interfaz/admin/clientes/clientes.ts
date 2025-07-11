@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Cliente,ClienteService } from '../../../../servicios/admin/clientes/clientes';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,13 +13,14 @@ import { ChangeDetectorRef, OnInit } from '@angular/core';
 
 })
 export class Clientes implements OnInit {
+  private clienteService = inject(ClienteService);
+  private cdr = inject(ChangeDetectorRef);
+
   editandoId: number | null = null;
   backupCliente: Cliente | null = null;
   total=0
   clientes: Cliente[] = [];
   nuevoCliente: Partial<Cliente> = {};
-
-  constructor(private clienteService: ClienteService,private cdr: ChangeDetectorRef) {}
 
   ngOnInit(){
     this.obtenerClientes();

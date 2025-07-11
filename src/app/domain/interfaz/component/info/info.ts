@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule, CalendarEvent, CalendarView,CalendarMonthViewDay } from 'angular-calendar';
@@ -18,8 +18,12 @@ import { ChangeDetectorRef } from '@angular/core';
 
 })
 export class Info {
+  private sanitizer = inject(DomSanitizer);
+  private eventoService = inject(Turnos);
+  private cdr = inject(ChangeDetectorRef);
 
-  constructor(private sanitizer: DomSanitizer, private eventoService: Turnos, private cdr: ChangeDetectorRef) {
+
+  constructor() {
     this.cargarTurnos();
   }
   sanitizeUrl(url: string): SafeResourceUrl {

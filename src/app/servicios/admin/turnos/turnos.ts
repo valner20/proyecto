@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
 import { Cliente } from '../clientes/clientes';
@@ -23,11 +23,11 @@ export interface CrearCita {
   providedIn: 'root'
 })
 export class Turnos {
+  private http = inject(HttpClient);
+
 
   private baseUrl = 'https://lunalimpia.fly.dev/cita/';
   private cache: turno[] | null = null;
-
-  constructor(private http: HttpClient) {}
 
   getCitas(forceRefresh = false): Observable<turno[]> {
     if (this.cache && !forceRefresh) {

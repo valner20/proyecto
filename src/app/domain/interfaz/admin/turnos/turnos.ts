@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { Turnos, turno, CrearCita } from '../../../../servicios/admin/turnos/turnos';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,11 @@ import { computed } from '@angular/core';
   styleUrl: './turnos.css'
 })
 export class TurnosComponent implements OnInit {
+  private turnosService = inject(Turnos);
+  private clientesService = inject(ClienteService);
+  private profesionalesService = inject(ProfesionalService);
+  private cdr = inject(ChangeDetectorRef);
+
   citas = signal<turno[]>([]);
   filtros = signal({
   fecha: '',
@@ -49,13 +54,6 @@ export class TurnosComponent implements OnInit {
 
   clientes: Cliente[] = [];
   profesionales: Profesional[] = [];
-
-  constructor(
-    private turnosService: Turnos,
-    private clientesService: ClienteService,
-    private profesionalesService: ProfesionalService,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.inicializarDatos();
