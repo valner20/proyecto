@@ -1,5 +1,4 @@
-import { Info } from './domain/interfaz/component/info/info';
-import { Base } from './domain/interfaz/pages/base/base';
+
 import { Routes } from '@angular/router';
 import { Admin } from './domain/interfaz/admin/admin';
 import { Auth } from './servicios/guards/auth';
