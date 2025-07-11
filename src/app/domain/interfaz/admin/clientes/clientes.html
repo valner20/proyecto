@@ -21,6 +21,8 @@
             <ng-container *ngIf="editandoId !== cliente.id; else modoEdicion">
               <td data-label="Nombre">{{ cliente.nombre }}</td>
               <td data-label="Dirección">{{ cliente.direccion }}</td>
+              <td data-label="cedula">{{ cliente.cedula }}</td>
+              <td data-label="correo">{{ cliente.correo }}</td>
               <td data-label="Video">
                 <a *ngIf="cliente.video" [href]="cliente.video" target="_blank">Ver Video</a>
               </td>
