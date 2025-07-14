@@ -7,12 +7,14 @@
       <thead>
         <tr>
           <th>Nombre</th>
+          <th>Cedula</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let profesional of profesionales">
           <td>{{ profesional.username }}</td>
+          <td>{{ profesional.cedula }}</td>
 
           <td class="actions">
             <button class="btn btn-delete" (click)="eliminarProfesional(profesional.id)">Eliminar</button>
