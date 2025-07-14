@@ -7,7 +7,7 @@
     <p class="login-subtitle">Bienvenido de nuevo</p>
 
     <form (ngSubmit)="login()">
-      <input type="text" [(ngModel)]="cedula" name="cedula" placeholder="Nombre" required>
+      <input type="text" [(ngModel)]="cedula" name="cedula" placeholder="cc" required>
       <input type="password" [(ngModel)]="pass" name="pass" placeholder="cc" required>
       <button type="submit">Iniciar sesión</button>
       <p *ngIf="error" style="color:red">{{ error }}</p>

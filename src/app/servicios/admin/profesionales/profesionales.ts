@@ -6,7 +6,7 @@ import { Observable, of, tap } from 'rxjs';
 export interface Profesional {
   id: number;
   username: string;
-  password?: string;
+  cedula: string;
 }
 
 @Injectable({
@@ -37,10 +37,6 @@ export class ProfesionalService {
 
   createProfesional(profesional: Profesional): Observable<Profesional> {
     return this.http.post<Profesional>("https://lunalimpia.fly.dev/registrar/", profesional);
-  }
-
-  updateProfesional(id: number, profesional: Profesional): Observable<Profesional> {
-    return this.http.put<Profesional>(`${this.baseUrl}${id}/`, profesional);
   }
 
   deleteProfesional(id: number): Observable<any> {
