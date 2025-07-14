@@ -21,7 +21,7 @@ export class Base {
 
   login() {
   const data = {
-    username: this.cedula,
+    cedula: this.cedula,
     password: this.pass
   };
 
