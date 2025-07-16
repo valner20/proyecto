@@ -7,6 +7,7 @@ export interface Profesional {
   id: number;
   username: string;
   cedula: string;
+  is_staff: boolean;
 }
 
 @Injectable({

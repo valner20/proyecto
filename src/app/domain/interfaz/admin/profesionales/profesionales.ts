@@ -26,7 +26,7 @@ export class Profesionales implements OnInit {
 
   obtenerProfesionales(aux=false): void {
     this.profesionalService.getProfesionales(aux).subscribe(data => {
-        this.profesionales = data.filter(p => p.username !== 'lunalimpia');
+        this.profesionales = data.filter(p => p.is_staff == false);
     this.cdr.detectChanges();
 });
   }
