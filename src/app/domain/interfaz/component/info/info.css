@@ -96,8 +96,8 @@
 }
 
 .btn {
-  background-color: #e0f2fe; /* azul celeste claro */
-  color: #2563eb;            /* azul más fuerte para contraste */
+  background-color: #e0f2fe;
+  color: #2563eb;
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 0.75rem;
@@ -111,7 +111,7 @@
 }
 
 .btn:hover {
-  background-color: #bae6fd; /* tono más fuerte al pasar el mouse */
+  background-color: #bae6fd;
   transform: scale(1.02);
 }
 

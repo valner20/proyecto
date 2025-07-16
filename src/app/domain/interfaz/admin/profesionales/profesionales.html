@@ -12,14 +12,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let profesional of profesionales">
+        <ng-container *ngFor="let profesional of profesionales">
+        <tr *ngIf="profesional.username !== 'lunalimpia'">
           <td>{{ profesional.username }}</td>
           <td>{{ profesional.cedula }}</td>
-
           <td class="actions">
             <button class="btn btn-delete" (click)="eliminarProfesional(profesional.id)">Eliminar</button>
           </td>
         </tr>
+      </ng-container>
       </tbody>
     </table>
 
